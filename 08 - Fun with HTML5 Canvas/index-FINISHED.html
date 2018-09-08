@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+</head>
+<body>
+<canvas id="draw"></canvas>
+<div id="top">
+	<span class="title">HTML5 Canvas</span>
+	<span class="button">rgb(0, 0, 0)</span>
+</div>
+<script>
+	//canvas
+	const canvas = document.querySelector("#draw");
+	const ctx = canvas.getContext('2d');
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	//stroke
+	ctx.lineJoin = 'round';
+	ctx.lineCap = 'round';
+	ctx.strokeStyle;
+	
+	let isDrawing = false; 
+	let lastX = 0;
+	let lastY = 0;
+	let hue = 0;
+	let lineWidth = 1;
+	let lineGrow = true;
+
+	document.documentElement.style.setProperty('--hue', `hsl(${hue}, 100%, 50%)`);
+	document.querySelector('body').style.backgroundColor = "rgb(255, 255, 255)";
+
+	function updateHue() {
+		hue++;
+		if (hue >= 360) hue = 0;
+
+		document.documentElement.style.setProperty('--hue', `hsl(${hue}, 100%, 50%)`);
+	}
+
+	function updateLineWidth() {
+		if (lineWidth >= 50 || lineWidth < 1) lineGrow = !lineGrow;
+		if (lineGrow) lineWidth++;
+		else lineWidth--;
+	}
+
+	function draw(event) {
+		//prevent drawing if not holding mouse down
+		if (!isDrawing)	return;
+
+		ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+		ctx.lineWidth = lineWidth;
+
+		//draw line from a to b
+		ctx.beginPath();
+		ctx.moveTo(lastX, lastY);
+		ctx.lineTo(event.offsetX, event.offsetY);
+		ctx.stroke();
+
+		//update position on mousemove
+		[lastX, lastY] = [event.offsetX, event.offsetY];
+
+		updateHue();
+		updateLineWidth();
+	}
+
+	canvas.addEventListener('mousemove', draw);
+	canvas.addEventListener('mousedown', (e) => {
+		isDrawing = true;
+		[lastX, lastY] = [e.offsetX, e.offsetY];
+	});
+	canvas.addEventListener('mouseup', () => isDrawing = false);
+	canvas.addEventListener('mouseout', () => isDrawing = false);
+
+	function toggleBackground(e) {
+		let color = document.querySelector('body').style.backgroundColor;
+		document.querySelector('body').style.backgroundColor = e.target.textContent;
+		e.target.textContent = color;
+	}
+
+	document.querySelector('.button').addEventListener('click', toggleBackground);
+</script>
+
+<style>
+	:root {
+	 --hue: hsl(0, 100%, 50%);
+	}
+
+	* {
+		margin:0;
+		padding:0;
+		box-sizing:border-box;
+	}
+	
+  body {
+    font-family:'Fredoka One';
+    color: var(--hue);
+  }
+
+  #top {
+  	position:absolute;
+  	width:100%;
+  	padding:5px 10px;
+		display:flex;
+		justify-content:space-between;
+		align-items:center;
+		background-color:white;
+		user-select:none;
+		z-index:1;
+  }
+
+  .title {
+  	font-size:42px;
+  }
+
+  .button {
+  	width:10em;
+  	text-align:center;
+  	padding:5px 7px;
+  	border-width:1px;
+  	border-style:dashed;
+  	border-color:var(--hue);
+  	border-radius: 5px;
+  	font-size:22px;
+  }
+
+  canvas {
+		position:absolute;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
+	}
+</style>
+
+</body>
+</html>
