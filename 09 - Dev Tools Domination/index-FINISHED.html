@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('Hello!')
+
+    // Interpolated
+    console.log('Hello %s World', '🌎')
+
+    // Styled
+    console.log('%c Hello World', 'color:pink; font-size:42px')
+
+    // warning!
+    console.warn('OH SHIT')
+
+    // Error :|
+    console.error('NOOO')
+
+    // Info
+    console.info('Me importa un carajo')
+
+    // Testing
+    console.assert(0 === 1, 'oops')
+
+    // clearing
+    //console.clear()
+
+    // Viewing DOM Elements
+    const p = document.querySelector('p')
+    console.log(p);
+    console.dir(p);
+
+    // Grouping together
+    dogs.forEach(dog => {
+    	console.groupCollapsed(`${dog.name}`);
+    	console.log(`${dog.name} is ${dog.age} years old`);
+    	console.log(`${dog.name} is ${dog.age * 7} human years old`);
+    	console.groupEnd(`${dog.name}`);
+
+    })
+
+    // counting
+    console.count('🐈');
+    console.count('🐈');
+    console.count('🐈');
+    console.count('🐈');
+    console.count('🐈');
+
+    // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/mechamech')
+    	.then(data => data.json())
+    	.then(data => {
+    		console.timeEnd('fetching data');
+    		console.log(data);
+    	});
+
+   console.table(dogs)
+
+  </script>
+</body>
+</html>
