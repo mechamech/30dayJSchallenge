@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+	<style>
+		body {
+			background:lightpink;
+		}
+
+		#caliope {
+			width:600px;
+			height:400px;
+			margin:0 auto;
+			background-image:url('caliope.jpg');
+			background-size:cover;
+			display:none;
+		}
+	</style>
+	
+	<div id="caliope"></div>
+
+	<script>
+		const secretCode = 'caliope';
+		let index = 0;
+
+		function handleInput(event) {
+			event.key === secretCode[index] ? index++ : index = 0;
+
+			if (index === secretCode.length) {
+				document.querySelector('#caliope').style.display = 'block'
+				cornify_add();
+				index = 0;
+			}
+		}
+
+		window.addEventListener('keyup', handleInput);
+	</script>
+</body>
+</html>
