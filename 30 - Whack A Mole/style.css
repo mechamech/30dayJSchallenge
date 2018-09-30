@@ -12,6 +12,10 @@ body {
   padding: 0;
   margin:0;
   font-family: 'Amatic SC', cursive;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items: center;
 }
 
 h1 {
@@ -26,6 +30,11 @@ h1 {
   padding:0 3rem;
   line-height:1;
   border-radius:1rem;
+}
+
+button {
+  width:10em;
+  margin-top:20px;
 }
 
 .game {
